@@ -18,6 +18,11 @@
                     <x-nav-link :href="route('search.index')" :active="request()->routeIs('search.index')">
                         {{ __('Search') }}
                     </x-nav-link>
+                    @if(auth()->user() && auth()->user()->role === 'admin')
+                        <x-nav-link :href="route('stats.index')" :active="request()->routeIs('stats.index')">
+                            {{ __('Statistics') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
