@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\StatsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,4 +32,7 @@ Route::middleware('auth')->group(function () {
 Route::get('/search', [SearchController::class, 'index'])->name('search.index');
 Route::get('/search/results', [SearchController::class, 'search'])->name('search.results');
 
+Route::get('/stats', [StatsController::class, 'index'])
+    ->name('stats.index')
+    ->middleware(['auth', 'check.role:admin']); 
 require __DIR__.'/auth.php';
