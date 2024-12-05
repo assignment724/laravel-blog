@@ -1,70 +1,111 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
     public function __construct()
     {
-        // Require authentication except for index and show
         $this->middleware('auth')->except(['index', 'show']);
     }
 
     public function index()
     {
-        $posts = Post::with('user')->latest()->paginate(10);
+        $posts = Post::with(['user', 'category'])
+                    ->latest()
+                    ->paginate(10);
+        
         return view('posts.index', compact('posts'));
     }
 
     public function create()
     {
-        return view('posts.create');
+        $categories = Category::all();
+        return view('posts.create', compact('categories'));
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
             'title' => 'required|max:255',
-            'content' => 'required'
+            'content' => 'required',
+            'category_id' => 'required|exists:categories,id',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
-        $request->user()->posts()->create($validated);
-        return redirect()->route('posts.index')->with('success', 'Post created successfully.');
+        $validated['user_id'] = auth()->id();
+        
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('posts', 'public');
+            $validated['image_path'] = $imagePath;
+        }
+        
+        $post = Post::create($validated);
+        
+        return redirect()->route('posts.show', $post)
+                        ->with('success', 'Post created successfully.');
     }
 
     public function show(Post $post)
     {
         return view('posts.show', compact('post'));
     }
-    /**
-     * Display a listing of the resource.
-     */
-   
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(Post $post)
     {
-        //
+        if (auth()->user()->role === 'writer' && $post->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $categories = Category::all();
+        return view('posts.edit', compact('post', 'categories'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Post $post)
     {
-        //
+        if (auth()->user()->role === 'writer' && $post->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $validated = $request->validate([
+            'title' => 'required|max:255',
+            'content' => 'required',
+            'category_id' => 'required|exists:categories,id',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+
+        if ($request->hasFile('image')) {
+            if ($post->image_path) {
+                Storage::disk('public')->delete($post->image_path);
+            }
+            $imagePath = $request->file('image')->store('posts', 'public');
+            $validated['image_path'] = $imagePath;
+        }
+
+        $post->update($validated);
+
+        return redirect()->route('posts.show', $post)
+                        ->with('success', 'Post updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Post $post)
     {
-        //
+        if (auth()->user()->role !== 'admin' && $post->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        if ($post->image_path) {
+            Storage::disk('public')->delete($post->image_path);
+        }
+
+        $post->delete();
+
+        return redirect()->route('posts.index')
+                        ->with('success', 'Post deleted successfully.');
     }
 }
