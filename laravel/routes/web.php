@@ -6,6 +6,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\StatsController;
+use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WriterController;
 use App\Models\Category;
@@ -25,6 +26,8 @@ Route::get('/test', function() {
     ]);
    
 })->middleware('auth');
+Route::resource('tags', TagController::class)->only(['index', 'store', 'destroy'])->middleware('auth');
+
 Route::middleware(['auth', 'check.role:writer,admin'])->group(function () {
     Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
     Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
