@@ -63,6 +63,25 @@
                                 <p class="text-red-500 text-xs italic">{{ $message }}</p>
                             @enderror
                         </div>
+                        <div class="mb-4">
+    <label class="block text-gray-700 text-sm font-bold mb-2">
+        Tags
+    </label>
+    <div class="mt-2 flex flex-wrap gap-2">
+        @foreach($tags as $tag)
+            <label class="inline-flex items-center">
+                <input type="checkbox" 
+                       name="tags[]" 
+                       value="{{ $tag->id }}"
+                       class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                <span class="ml-2 text-sm text-gray-600">{{ $tag->name }}</span>
+            </label>
+        @endforeach
+    </div>
+    @error('tags')
+        <p class="text-red-500 text-xs italic">{{ $message }}</p>
+    @enderror
+</div>
 
                         <div class="flex items-center justify-end">
                             <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
