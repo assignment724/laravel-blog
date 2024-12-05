@@ -32,6 +32,18 @@
                     <div class="prose max-w-none">
                         {{ $post->content }}
                     </div>
+                    @if($post->tags->count() > 0)
+                        <div class="mt-6">
+                            <h3 class="text-lg font-medium text-gray-900 mb-2">Tags</h3>
+                            <div class="flex flex-wrap gap-2">
+                                @foreach($post->tags as $tag)
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-indigo-100 text-indigo-800">
+                                        {{ $tag->name }}
+                                    </span>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
             </div>
         </div>
     </div>
