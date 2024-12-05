@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\Category;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -14,13 +15,24 @@ class PostController extends Controller
         $this->middleware('auth')->except(['index', 'show']);
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::with(['user', 'category'])
-                    ->latest()
-                    ->paginate(10);
+        $query = Post::with(['user', 'category', 'tags']);
+    
+        if ($request->has('tag')) {
+            $query->whereHas('tags', function($q) use ($request) {
+                $q->where('slug', $request->tag);
+            });
+        }
+    
+        $posts = $query->latest()->paginate(10);
         
-        return view('posts.index', compact('posts'));
+        $currentTag = null;
+        if ($request->has('tag')) {
+            $currentTag = Tag::where('slug', $request->tag)->first();
+        }
+    
+        return view('posts.index', compact('posts', 'currentTag'));
     }
 
 
