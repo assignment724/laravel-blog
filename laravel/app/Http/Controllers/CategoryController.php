@@ -15,7 +15,13 @@ class CategoryController extends Controller
 
     public function index()
     {
-        $categories = Category::withCount('posts')->get();
+        $query = Category::query();
+        
+        if (request('search')) {
+            $query->where('name', 'like', '%' . request('search') . '%');
+        }
+        
+        $categories = $query->withCount('posts')->get();
         return view('categories.index', compact('categories'));
     }
 
