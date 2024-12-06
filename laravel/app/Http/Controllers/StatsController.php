@@ -9,7 +9,6 @@ class StatsController extends Controller
 {
     public function index()
     {
-        // Posts per month
         $postsPerMonth = Post::select(
             DB::raw('DATE_FORMAT(created_at, "%Y-%m") as month'),
             DB::raw('COUNT(*) as count')
@@ -18,7 +17,6 @@ class StatsController extends Controller
         ->orderBy('month')
         ->get();
 
-        // Posts per user
         $postsPerUser = Post::select('users.name', DB::raw('COUNT(*) as count'))
             ->join('users', 'posts.user_id', '=', 'users.id')
             ->groupBy('users.id', 'users.name')

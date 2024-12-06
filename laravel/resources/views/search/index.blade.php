@@ -10,7 +10,6 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <form method="GET" action="{{ route('search.results') }}" class="space-y-6">
-                        <!-- Search Text -->
                         <div>
                             <x-label for="search_text" :value="__('Search Text')" />
                             <x-input id="search_text" class="block mt-1 w-full" 
@@ -20,7 +19,6 @@
                                 placeholder="Search in title or content..." />
                         </div>
 
-                        <!-- Author Dropdown -->
                         <div>
                             <x-label for="author" :value="__('Filter by Author')" />
                             <select name="author" id="author" class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 block mt-1 w-full">
@@ -33,7 +31,6 @@
                             </select>
                         </div>
 
-                        <!-- Date Range Radio Buttons -->
                         <div>
                             <x-label :value="__('Date Range')" class="mb-2" />
                             <div class="space-y-2">

@@ -22,7 +22,6 @@ class SearchController extends Controller
         $query = Post::query();
         $users = User::all();
 
-        // Search by title/content
         if ($request->filled('search_text')) {
             $query->where(function($q) use ($request) {
                 $q->where('title', 'like', '%' . $request->search_text . '%')
@@ -30,12 +29,10 @@ class SearchController extends Controller
             });
         }
 
-        // Filter by author
         if ($request->filled('author')) {
             $query->where('user_id', $request->author);
         }
 
-        // Filter by date range
         if ($request->filled('date_range')) {
             switch ($request->date_range) {
                 case 'today':

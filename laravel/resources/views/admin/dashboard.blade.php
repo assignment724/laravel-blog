@@ -7,7 +7,6 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <!-- Stats Overview -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6">
@@ -55,9 +54,7 @@
                 </div>
             </div>
 
-            <!-- Recent Content Section -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Recent Posts -->
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6">
                         <h3 class="text-lg font-medium text-gray-900 mb-4">Recent Posts</h3>
@@ -89,7 +86,6 @@
                     </div>
                 </div>
 
-                <!-- Recent Users -->
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6">
                         <h3 class="text-lg font-medium text-gray-900 mb-4">Recent Users</h3>
@@ -121,7 +117,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // Shared chart options and styling
         Chart.defaults.font.family = '"Inter", sans-serif';
         Chart.defaults.color = '#6B7280';
         Chart.defaults.plugins.tooltip.backgroundColor = 'rgba(17, 24, 39, 0.8)';
@@ -132,7 +127,6 @@
         Chart.defaults.plugins.tooltip.borderColor = 'rgba(255, 255, 255, 0.1)';
         Chart.defaults.plugins.tooltip.borderWidth = 1;
 
-        // User Roles Chart - Enhanced Doughnut
         const userRolesCtx = document.getElementById('userRolesChart').getContext('2d');
         new Chart(userRolesCtx, {
             type: 'doughnut',
@@ -184,7 +178,6 @@
             }
         });
 
-        // Posts Chart - Enhanced Line Chart
         const postsCtx = document.getElementById('postsChart').getContext('2d');
         const postsGradient = postsCtx.createLinearGradient(0, 0, 0, 250);
         postsGradient.addColorStop(0, 'rgba(59, 130, 246, 0.2)');
@@ -245,7 +238,6 @@
             }
         });
 
-        // User Activity Chart - Enhanced Bar Chart
         const userActivityCtx = document.getElementById('userActivityChart').getContext('2d');
         new Chart(userActivityCtx, {
             type: 'bar',

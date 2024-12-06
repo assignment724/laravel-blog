@@ -8,13 +8,11 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                <!-- Posts per Month Chart -->
                 <div class="mb-8">
                     <h3 class="text-lg font-semibold mb-4">Posts per Month</h3>
                     <canvas id="postsPerMonthChart"></canvas>
                 </div>
 
-                <!-- Posts per User Chart -->
                 <div>
                     <h3 class="text-lg font-semibold mb-4">Posts per User</h3>
                     <canvas id="postsPerUserChart"></canvas>
@@ -24,7 +22,6 @@
     </div>
 
     <script>
-        // Posts per Month Chart
         const monthlyCtx = document.getElementById('postsPerMonthChart');
         new Chart(monthlyCtx, {
             type: 'line',
@@ -50,7 +47,6 @@
             }
         });
 
-        // Posts per User Chart
         const userCtx = document.getElementById('postsPerUserChart');
         new Chart(userCtx, {
             type: 'bar',

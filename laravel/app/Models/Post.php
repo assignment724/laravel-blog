@@ -11,11 +11,19 @@ class Post extends Model
         'content',
         'user_id',
         'category_id',
+        'views',
+        'likes_count',
+        'comments_count',
         'image_path'
     ];
-
-    
     protected $appends = ['excerpt', 'reading_time'];
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'views' => 'integer',
+        'likes_count' => 'integer',
+        'comments_count' => 'integer',
+    ];
 
     public function user()
     {
@@ -46,4 +54,19 @@ class Post extends Model
         $wordCount = str_word_count(strip_tags($this->content));
         return ceil($wordCount / 200);
         }
+    
+        public function comments()
+        {
+            return $this->hasMany(Comment::class);
+        }
+    
+        public function likes()
+        {
+            return $this->hasMany(Like::class);
+        }
+    
+        public function incrementViews()
+        {
+            $this->increment('views');
+        }    
 }

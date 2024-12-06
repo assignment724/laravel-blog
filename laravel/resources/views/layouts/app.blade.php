@@ -14,8 +14,9 @@
         
 
         <!-- Scripts -->
-        <link rel="stylesheet" href="/build/assets/app-9a1820cd.css">
-        <script type="module" src="/build/assets/app-7e88584a.js"></script>
+        <!-- <link rel="stylesheet" href="/build/assets/app-9a1820cd.css">
+        <script type="module" src="/build/assets/app-7e88584a.js"></script> -->
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
